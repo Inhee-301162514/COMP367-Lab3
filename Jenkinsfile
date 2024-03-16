@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        DOCKERHUB_PWD=credentials('DockerHubPassword')
+        DockerHubPassword=credentials('DockerHubPassword')
     }
 
     stages {
