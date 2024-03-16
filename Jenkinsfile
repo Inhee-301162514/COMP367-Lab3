@@ -2,18 +2,50 @@ pipeline {
     agent any
 
     tools {
-        maven 'MAVEN3'
+        jdk 'JDK21'
+        maven 'MVN3'
+    }
+
+    environment {
+        DOCKERHUB_PWD=credentials('DockerHubPassword')
     }
 
     stages {
-        stage('Build') {
+        stage('check out') {
             steps {
-                sh "mvn clean compile"
+                git branch: 'main', url: 'https://github.com/Inhee-301162514/COMP367-Lab3.git' 
             }
-            post {
-                success {
-                    sh "nohup mvn tomcat7:run &"
+        }
+
+        stage('build') {
+            steps {
+                withMaven(jdk: 'JDK21', maven: 'MVN3') {
+                    bat 'mvn clean compile'
                 }
+            }
+        }
+
+        stage('Jacoco') {
+            steps {
+                jacoco(execPattern: '**/target/jacoco.exec')
+            }
+        }
+
+        stage('Docker build') {
+            steps {
+                docker.build("alexpark19951122/comp367-lab3:lab3-build")
+            }
+        }
+
+        stage('Docker login') {
+            steps {
+                bat 'docker login -u alexpark19951122 -p "%DockerHubPassword%"'
+            }
+        }
+
+        stage('Docker push') {
+            steps {
+                bat 'docker push alexpark19951122/comp367-lab3:lab3-build'
             }
         }
     }
