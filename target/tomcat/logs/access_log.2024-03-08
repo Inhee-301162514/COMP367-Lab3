@@ -1,0 +1,2 @@
+0:0:0:0:0:0:0:1 - - [08/Mar/2024:16:12:58 -0500] "GET / HTTP/1.1" 200 112 http-bio-9090-exec-1 281
+127.0.0.1 - - [08/Mar/2024:16:13:33 -0500] "PUT /manager/text/deploy?path=%2F HTTP/1.1" 403 961 http-bio-9090-exec-4 2
