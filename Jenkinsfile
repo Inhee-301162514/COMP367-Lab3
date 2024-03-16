@@ -33,7 +33,9 @@ pipeline {
 
         stage('Docker build') {
             steps {
-                docker.build("alexpark19951122/comp367-lab3:lab3-build")
+                script {
+                    docker.build("alexpark19951122/comp367-lab3:lab3-build")
+                }
             }
         }
 
